@@ -56,6 +56,7 @@ class ViewController: UIViewController, ControllerHandler {
         super.viewDidLoad()
         setupUI()
         setupViewModel()
+        setupKeyboardHandling()
     }
     
     private func setupUI() {
@@ -71,7 +72,7 @@ class ViewController: UIViewController, ControllerHandler {
             headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 120),
+            headerView.heightAnchor.constraint(equalToConstant: 300),
             
             headerLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 16),
             headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
@@ -108,5 +109,66 @@ class ViewController: UIViewController, ControllerHandler {
             view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
+    }
+}
+
+extension ViewController {
+    private func setupKeyboardHandling() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide(_:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    // Requirement:
+    // only move the view above the keyboard if the view is below the keyboard
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        let keyboardHeight = keyboardFrame.height
+        
+        // Convert keyboard frame to view coordinates
+        let keyboardTopY = view.frame.height - keyboardHeight
+        
+        // Find the active text field
+        guard let activeField = findActiveTextField(in: contentView) else { return }
+        
+        // Convert text field frame to view coordinates
+        let textFieldFrame = activeField.convert(activeField.bounds, to: view)
+        let textFieldBottomY = textFieldFrame.origin.y + textFieldFrame.height
+        
+        // Only move if text field is below or covered by keyboard
+        if textFieldBottomY > keyboardTopY {
+            let offset = textFieldBottomY - keyboardTopY + 10 // 10 points of padding
+            UIView.animate(withDuration: 0.3) {
+                self.contentView.transform = CGAffineTransform(translationX: 0, y: -offset)
+            }
+        }
+    }
+    
+    private func findActiveTextField(in view: UIView) -> UITextField? {
+        if let textField = view as? UITextField, textField.isFirstResponder {
+            return textField
+        }
+        
+        for subview in view.subviews {
+            if let textField = findActiveTextField(in: subview) {
+                return textField
+            }
+        }
+        
+        return nil
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        UIView.animate(withDuration: 0.3) {
+            self.contentView.transform = .identity
+        }
     }
 }
