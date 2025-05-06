@@ -15,16 +15,30 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				UnstableViewTest/ProfileView.swift,
 			);
 			target = 8E0ABB372DCA75290019A612 /* StupidViewTest */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		8E0ABB5C2DCA79030019A612 /* Exceptions for "StupidViewTest" folder in "Copy Bundle Resources" phase from "StupidViewTest" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 8E0ABB362DCA75290019A612 /* Resources */;
+			membershipExceptions = (
+				UnstableViewTest/ProfileView.swift,
+				UnstableViewTest/UnstableViewModel.swift,
+				UnstableViewTest/ViewController.swift,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		8E0ABB3A2DCA75290019A612 /* StupidViewTest */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				8E0ABB4A2DCA752A0019A612 /* Exceptions for "StupidViewTest" folder in "StupidViewTest" target */,
+				8E0ABB5C2DCA79030019A612 /* Exceptions for "StupidViewTest" folder in "Copy Bundle Resources" phase from "StupidViewTest" target */,
 			);
 			path = StupidViewTest;
 			sourceTree = "<group>";
