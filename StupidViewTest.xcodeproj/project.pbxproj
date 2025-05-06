@@ -15,7 +15,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
-				UnstableViewTest/ProfileView.swift,
 			);
 			target = 8E0ABB372DCA75290019A612 /* StupidViewTest */;
 		};
@@ -26,9 +25,8 @@
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			buildPhase = 8E0ABB362DCA75290019A612 /* Resources */;
 			membershipExceptions = (
-				UnstableViewTest/ProfileView.swift,
-				UnstableViewTest/UnstableViewModel.swift,
-				UnstableViewTest/ViewController.swift,
+				UnstableViewModel.swift,
+				ViewController.swift,
 			);
 		};
 /* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
