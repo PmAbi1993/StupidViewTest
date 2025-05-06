@@ -57,6 +57,7 @@ class ProfileView: UIView {
         textField.borderStyle = .roundedRect
         textField.font = UIFont.systemFont(ofSize: 14)
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.becomeFirstResponder()
         return textField
     }()
     
