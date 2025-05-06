@@ -117,7 +117,7 @@ extension ViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow(_:)),
-            name: UIResponder.keyboardWillShowNotification,
+            name: UIResponder.keyboardWillChangeFrameNotification,
             object: nil
         )
         NotificationCenter.default.addObserver(
@@ -148,6 +148,7 @@ extension ViewController {
             let offset = textFieldBottomY - keyboardTopY + 10 // 10 points of padding
             UIView.animate(withDuration: 0.3) {
                 self.contentView.transform = CGAffineTransform(translationX: 0, y: -offset)
+//                self.view.frame.origin.y -= offset
             }
         }
     }
@@ -172,3 +173,8 @@ extension ViewController {
         }
     }
 }
+
+//Issue happening when keyboard is observing keyboardWillChangeFrameNotification and the translation logic is self.view.frame.origin.y -= offset
+//Solution:
+//For monitering keyboard use keyboardWillShowNotification and while handling use below code
+//self.contentView.transform = CGAffineTransform(translationX: 0, y: -offset)
