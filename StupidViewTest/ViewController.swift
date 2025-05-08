@@ -63,6 +63,11 @@ class ViewController: UIViewController, ControllerHandler {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.isHidden = true
         
+        // Add tap gesture to dismiss keyboard
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+        
         view.addSubview(headerView)
         headerView.addSubview(headerLabel)
         headerView.addSubview(searchBar)
@@ -117,7 +122,7 @@ extension ViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow(_:)),
-            name: UIResponder.keyboardWillChangeFrameNotification,
+            name: UIResponder.keyboardWillShowNotification,
             object: nil
         )
         NotificationCenter.default.addObserver(
@@ -171,6 +176,10 @@ extension ViewController {
         UIView.animate(withDuration: 0.3) {
             self.contentView.transform = .identity
         }
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
 
