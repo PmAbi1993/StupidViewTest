@@ -9,16 +9,14 @@ import UIKit
 
 public class ProfileHolder: UIView {
     
-    private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = .clear
-        cv.register(ProfileCell.self, forCellWithReuseIdentifier: "ProfileCell")
-        cv.dataSource = self
-        cv.delegate = self
-        cv.translatesAutoresizingMaskIntoConstraints = false
-        return cv
+    private lazy var tableView: UITableView = {
+        let tv = UITableView()
+        tv.backgroundColor = .clear
+        tv.register(ProfileCell.self, forCellReuseIdentifier: "ProfileCell")
+        tv.dataSource = self
+        tv.delegate = self
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        return tv
     }()
     
     // MARK: - Initialization
@@ -34,32 +32,35 @@ public class ProfileHolder: UIView {
     
     // MARK: - Setup
     private func setupViews() {
-        addSubview(collectionView)
+        addSubview(tableView)
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            tableView.topAnchor.constraint(equalTo: topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }
 
-extension ProfileHolder: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension ProfileHolder: UITableViewDataSource, UITableViewDelegate {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
         cell.configure(with: mockProfileData())
         return cell
     }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 200)
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 200
     }
-    
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        endEditing(true)
+    }
     private func mockProfileData() -> (image: UIImage?, name: String, description: String) {
         return (UIImage(systemName: "person.circle.fill"), "John Doe", "iOS Developer with 5 years of experience")
     }

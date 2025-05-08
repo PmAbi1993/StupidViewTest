@@ -122,7 +122,7 @@ extension ViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow(_:)),
-            name: UIResponder.keyboardWillShowNotification,
+            name: UIResponder.keyboardWillChangeFrameNotification,
             object: nil
         )
         NotificationCenter.default.addObserver(
@@ -152,8 +152,8 @@ extension ViewController {
         if textFieldBottomY > keyboardTopY {
             let offset = textFieldBottomY - keyboardTopY + 10 // 10 points of padding
             UIView.animate(withDuration: 0.3) {
-                self.contentView.transform = CGAffineTransform(translationX: 0, y: -offset)
-//                self.view.frame.origin.y -= offset
+//                self.contentView.transform = CGAffineTransform(translationX: 0, y: -offset)
+                self.view.frame.origin.y -= offset
             }
         }
     }
@@ -174,7 +174,7 @@ extension ViewController {
     
     @objc private func keyboardWillHide(_ notification: Notification) {
         UIView.animate(withDuration: 0.3) {
-            self.contentView.transform = .identity
+            self.view.frame.origin.y = 0
         }
     }
     

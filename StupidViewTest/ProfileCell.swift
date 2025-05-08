@@ -7,11 +7,11 @@
 
 import UIKit
 
-public class ProfileCell: UICollectionViewCell {
+public class ProfileCell: UITableViewCell {
     private let profileView = ProfileView()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(profileView)
         profileView.translatesAutoresizingMaskIntoConstraints = false
         
